@@ -2,6 +2,13 @@ import requests
 import sys
 from nhncloud_config import *
 
+def get_non_empty_input(prompt):
+    while True:
+        val = input(prompt).strip()
+        if val:
+            return val
+        print("⚠️  이 항목은 필수입니다. 값을 입력해주세요.")
+
 def get_auth_token():
     payload = {"auth": {"tenantId": TENANT_ID, "passwordCredentials": {"username": USERNAME, "password": PASSWORD}}}
     res = requests.post(AUTH_URL, json=payload)
@@ -29,7 +36,7 @@ def create_subnet(headers, name, vpc_id, cidr):
                         json={"vpcsubnet": {"name": name, "vpc_id": vpc_id, "cidr": cidr}})
     return (res.json()['vpcsubnet']['id'], None) if res.status_code == 201 else (None, res.text)
 
-def create_security_group(headers, name, allow_ip):
+def create_security_group(headers, name, allow_ip="0.0.0.0/0"):
     sg_res = requests.post(f"{NW_URL}/security-groups", headers=headers, json={"security_group": {"name": name}}).json()
     sg_id = sg_res['security_group']['id']
     requests.post(f"{NW_URL}/security-group-rules", headers=headers, json={
