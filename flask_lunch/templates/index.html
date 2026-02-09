@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+    <title>오늘 뭐 먹지? | 런치 룰렛</title>
+
+    <link rel="manifest" href="{{ url_for('static', filename='manifest.json') }}">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+</head>
+<body>
+    <div class="container">
+        <h1>오늘 뭐 먹지? 🍱</h1>
+        <p class="subtitle">메뉴 고민은 끝, 이제 맛집만 찾으세요.</p>
+
+        <form action="/spin" method="POST">
+            <input type="text" name="user_menu" placeholder="먹고 싶은 메뉴를 직접 입력하세요">
+            
+            <div class="category-grid">
+                <input type="radio" name="category" id="c1" value="ALL" checked><label for="c1">모두</label>
+                <input type="radio" name="category" id="c2" value="KOREAN"><label for="c2">한식</label>
+                <input type="radio" name="category" id="c3" value="JAPANESE"><label for="c3">일식</label>
+                <input type="radio" name="category" id="c4" value="CHINESE"><label for="c4">중식</label>
+                <input type="radio" name="category" id="c5" value="WESTERN"><label for="c5">양식</label>
+                <input type="radio" name="category" id="c6" value="LIGHT"><label for="c6">가벼운식</label>
+            </div>
+
+            <button type="submit">🎰 결정하기</button>
+        </form>
+
+        {% if result %}
+        <div class="result-box">
+            <span style="font-size: 0.8rem; color: #6366f1;">[{{ mode }}]</span>
+            <h2 style="margin: 10px 0;">🍴 {{ result }} 어때요?</h2>
+            <a href="{{ url }}" target="_blank" class="btn-map">📍 근처 {{ result }} 맛집 지도 보기 →</a>
+        </div>
+        {% endif %}
+    </div>
+</body>
+</html>

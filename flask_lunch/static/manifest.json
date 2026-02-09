@@ -1,0 +1,15 @@
+{
+"name": "런치룰렛 - 오늘뭐먹지",
+"short_name": "런치룰렛",
+"start_url": "/",
+"display": "standalone",
+"background_color": "#ffffff",
+"theme_color": "#4f46e5",
+"icons": [
+    {
+    "src": "https://cdn-icons-png.flaticon.com/512/857/857681.png",
+    "sizes": "512x512",
+    "type": "image/png"
+    }
+]
+}
