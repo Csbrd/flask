@@ -1,5 +1,6 @@
 import random
 from flask import Flask, render_template, request, jsonify
+import os
 
 app = Flask(__name__)
 
@@ -70,4 +71,7 @@ def slack_spin():
     return jsonify(response)
 
 if __name__ == '__main__':
-    app.run(host="0.0.0.0", port=5000)
+    port = int(os.environ.get("PORT", 5000))
+    
+    # host="0.0.0.0"은 외부 접속을 허용하는 핵심 설정입니다.
+    app.run(host="0.0.0.0", port=port)

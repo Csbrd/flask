@@ -1,3 +1,5 @@
-flask
+Flask
 google-generativeai
+slack-sdk
 gunicorn
+python-dotenv
