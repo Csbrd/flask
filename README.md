@@ -16,7 +16,7 @@
 ### 라이브러리 설치
 `pip install -r requirements.txt`
 
-안 되면 require,ents.txt파일 안에 있는 라이브러리 수동으로 설치
+안 되면 requirements.txt파일 안에 있는 라이브러리 수동으로 설치
 
 `pip install OOO`
 ### 실행하기
