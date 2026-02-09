@@ -1,5 +1,5 @@
 import random
-from flask import Flask, render_template, request
+from flask import Flask, render_template, request, jsonify
 
 app = Flask(__name__)
 
@@ -39,6 +39,35 @@ def spin():
     search_url = f"https://map.kakao.com/link/search/{picked}"
     
     return render_template('index.html', result=picked, url=search_url, mode=mode)
+
+@app.route('/slack/spin', methods=['POST'])
+def slack_spin():
+    # 슬랙은 사용자가 입력한 추가 텍스트를 'text'라는 키로 보냅니다.
+    # 예: '/점심 제육볶음' 이라고 치면 user_text는 '제육볶음'이 됩니다.
+    user_text = request.form.get('text', '').strip()
+    
+    if user_text:
+        picked = user_text
+    else:
+        # 모든 메뉴에서 랜덤 추출
+        all_menus = sum(FOOD_DATA.values(), [])
+        picked = random.choice(all_menus)
+    
+    search_url = f"https://map.kakao.com/link/search/{picked}"
+    
+    # 슬랙 형식에 맞는 JSON 응답
+    response = {
+        "response_type": "in_channel", # 채널의 모든 사람이 결과를 볼 수 있게 함
+        "text": f"🍱 오늘의 점심 추천: *{picked}* 어때요?",
+        "attachments": [
+            {
+                "text": f"<{search_url}|📍 근처 맛집 지도 보기>",
+                "color": "#4f46e5"
+            }
+        ]
+    }
+    
+    return jsonify(response)
 
 if __name__ == '__main__':
     app.run(debug=True)
